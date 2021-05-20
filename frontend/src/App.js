@@ -1,29 +1,56 @@
-import { QueryClient, QueryClientProvider, useQuery } from "react-query";
+import { useReducer } from "react";
+
+import Header from "./Header";
+import Form from "./Form";
+import Tweets from "./Tweets";
 
 import "./App.css";
 
-const queryClient = new QueryClient();
+const initialState = {
+  queryParams: null,
+  pathParams: null,
+};
 
-export default function App() {
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "setQueryParams":
+      return {
+        pathParams: null,
+        queryParams: action.value,
+      };
+    case "setPathParams":
+      return {
+        queryParams: null,
+        pathParams: action.value,
+      };
+    default:
+      throw new Error();
+  }
+};
+
+const App = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const handleQueryParams = (queryParams) => {
+    dispatch({ type: "setQueryParams", value: queryParams });
+  };
+
+  const handlePathParams = (pathParams) => {
+    dispatch({ type: "setPathParams", value: pathParams });
+  };
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <Example />
-    </QueryClientProvider>
-  );
-}
-
-function Example() {
-  const { isLoading, error, data } = useQuery("root", () =>
-    fetch("http://localhost:8000/").then((res) => res.json())
-  );
-
-  if (isLoading) return "Loading...";
-
-  if (error) return "An error has occurred: " + error.message;
-
-  return (
-    <div>
-      <pre>{JSON.stringify(data)}</pre>
+    <div className="mainContainer">
+      <Header />
+      <Form
+        handleQueryParams={handleQueryParams}
+        handlePathParams={handlePathParams}
+      />
+      {(state.queryParams || state.pathParams) && (
+        <Tweets queryParams={state.queryParams} pathParams={state.pathParams} />
+      )}
     </div>
   );
-}
+};
+
+export default App;

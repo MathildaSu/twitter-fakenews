@@ -1,0 +1,52 @@
+.inputTypeContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.queryContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.queryInputContainer {
+  margin-bottom: 0.8rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.queryInputContainer label {
+  margin-right: 1rem;
+}
+
+.queryInput {
+  width: 100%;
+}
+
+.queryOptionsContainer {
+  display: flex;
+  align-items: center;
+}
+
+.queryOptionsContainer {
+  margin-right: 1rem;
+}
+
+.queryOptionsContainer :not(:last-child) {
+  margin-right: 0.5rem;
+}
+
+.langInput {
+  width: 50px;
+}
+
+.limitInput {
+  width: 50px;
+}
+
+.searchButton {
+  width: 80px;
+  height: 30px;
+}

@@ -19,6 +19,7 @@
 # BE
 **/venv/
 **/__pycache__
+**/.env
 
 # Top Level
 .vscode/
