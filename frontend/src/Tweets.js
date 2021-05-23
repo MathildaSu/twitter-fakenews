@@ -4,7 +4,7 @@ import TweetEmbed from "react-tweet-embed";
 import "./Tweets.css";
 
 const buildRequestWithQueryParams = (queryParams) => {
-  const url = new URL("http://localhost:8000/tweets/");
+  const url = new URL(process.env.REACT_APP_TWEETS_API_URL);
 
   Object.entries(queryParams).forEach(([key, value]) => {
     if (value) {
@@ -16,7 +16,7 @@ const buildRequestWithQueryParams = (queryParams) => {
 };
 
 const buildRequestWithPathParams = (pathParams) => {
-  const url = new URL("http://localhost:8000/tweets/");
+  const url = new URL(process.env.REACT_APP_TWEETS_API_URL);
 
   return url + encodeURIComponent(pathParams);
 };

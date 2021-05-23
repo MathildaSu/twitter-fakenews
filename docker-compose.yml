@@ -1,0 +1,23 @@
+# docker-compose.yml
+
+version: "3.8"
+
+services:
+  api:
+    build: ./backend
+    command: uvicorn app.api:app --host 0.0.0.0
+    volumes:
+      - ./backend:/backend
+    ports:
+      - 8000:8000
+
+  frontend:
+    build: ./frontend
+    command: serve -s build -l 3000
+    volumes:
+      - ./frontend:/frontend
+      - frontend/build
+    ports:
+      - 3000:3000
+    depends_on:
+      - api

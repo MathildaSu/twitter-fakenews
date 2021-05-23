@@ -15,14 +15,9 @@ def get_settings():
     return config.Settings()
 
 
-origins = [
-    "http://localhost:3000",
-    "localhost:3000"
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=get_settings().allow_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -58,7 +53,7 @@ async def get_tweet_by_ids(
 @app.get("/tweets/")
 async def get_tweets(
     q: str,
-    result_type: str = "mixed",
+    result_type: str = "popular",
     lang: str = "en",
     limit: int = 10,
     settings: config.Settings = Depends(get_settings)
