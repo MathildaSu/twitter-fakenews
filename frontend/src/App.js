@@ -15,11 +15,13 @@ const reducer = (state, action) => {
   switch (action.type) {
     case "setQueryParams":
       return {
+        ...state,
         pathParams: null,
         queryParams: action.value,
       };
     case "setPathParams":
       return {
+        ...state,
         queryParams: null,
         pathParams: action.value,
       };
@@ -40,7 +42,7 @@ const App = () => {
   };
 
   return (
-    <div className="mainContainer">
+    <div className="main-container">
       <Header />
       <Form
         handleQueryParams={handleQueryParams}

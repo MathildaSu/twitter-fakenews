@@ -66,12 +66,12 @@ const Form = ({ handleQueryParams, handlePathParams }) => {
 
   return (
     <form onSubmit={onSubmit} className="form">
-      <div className="inputTypeContainer">
-        <label htmlFor="inputType">Input as a list of Tweet IDs?</label>
+      <div className="input-type-container">
+        <label htmlFor="input-type">Input as a list of Tweet IDs?</label>
         <input
           type="checkbox"
-          id="inputType"
-          name="inputType"
+          id="input-type"
+          name="input-type"
           checked={inputType === "ids" ? true : false}
           onChange={() => {
             if (inputType === "ids") {
@@ -83,8 +83,8 @@ const Form = ({ handleQueryParams, handlePathParams }) => {
           }}
         />
       </div>
-      <div className="queryContainer">
-        <div className="queryInputContainer">
+      <div className="query-container">
+        <div className="query-input-container">
           <label htmlFor="query">Query: </label>
           <input
             name="query"
@@ -97,10 +97,10 @@ const Form = ({ handleQueryParams, handlePathParams }) => {
                 ? "A list of tweet IDs separated by ,"
                 : "A keyword e.g. NHS or a Twitter Search Query"
             }
-            className="queryInput"
+            className="query-input"
           />
         </div>
-        <div className="queryOptionsContainer">
+        <div className="query-options-container">
           <label htmlFor="lang">Language: </label>
           <input
             disabled={inputType === "ids"}
@@ -109,7 +109,7 @@ const Form = ({ handleQueryParams, handlePathParams }) => {
             type="text"
             value={state.lang}
             onChange={onLangChange}
-            className="langInput"
+            className="lang-input"
           />
           <label htmlFor="limit">Limit: </label>
           <input
@@ -120,13 +120,13 @@ const Form = ({ handleQueryParams, handlePathParams }) => {
             value={state.limit}
             min="1"
             onChange={onLimitChange}
-            className="limitInput"
+            className="limit-input"
           />
-          <label htmlFor="resultType">Result Type:</label>
+          <label htmlFor="result-type">Result Type:</label>
           <select
             disabled={inputType === "ids"}
-            name="resultType"
-            id="resultType"
+            name="result-type"
+            id="result-type"
             value={state.result_type}
             onChange={onResultTypeChange}
           >
@@ -136,7 +136,7 @@ const Form = ({ handleQueryParams, handlePathParams }) => {
           </select>
         </div>
       </div>
-      <button className="searchButton" disabled={!state.q}>
+      <button className="search-button" disabled={!state.q}>
         Search
       </button>
     </form>

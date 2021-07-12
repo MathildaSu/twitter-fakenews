@@ -3,14 +3,14 @@
 # pull the official docker image
 FROM node:16
 
-# set work directory
-WORKDIR /frontend
-
 # install serve
 RUN npm install -g serve
 
+# set work directory
+WORKDIR /frontend
+
 # install the dependencies
-COPY yarn.lock ./
+COPY package.json yarn.lock ./
 RUN yarn
 
 # copy the project

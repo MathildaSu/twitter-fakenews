@@ -1,67 +1,63 @@
-import { useQuery } from "react-query";
-import TweetEmbed from "react-tweet-embed";
+import {
+  buildRequestWithQueryParams,
+  buildRequestWithPathParams,
+  useDataApi,
+} from "./utils";
+
+import Tweet from "./Tweet";
 
 import "./Tweets.css";
+import { useEffect } from "react";
 
-const buildRequestWithQueryParams = (queryParams) => {
-  const url = new URL(process.env.REACT_APP_TWEETS_API_URL);
-
-  Object.entries(queryParams).forEach(([key, value]) => {
-    if (value) {
-      url.searchParams.append(key, encodeURIComponent(value));
-    }
-  });
-
-  return url;
-};
-
-const buildRequestWithPathParams = (pathParams) => {
-  const url = new URL(process.env.REACT_APP_TWEETS_API_URL);
-
-  return url + encodeURIComponent(pathParams);
+const createRequestUrl = (queryParams, pathParams) => {
+  if (pathParams) {
+    return buildRequestWithPathParams(pathParams);
+  } else {
+    return buildRequestWithQueryParams(queryParams);
+  }
 };
 
 const Tweets = ({ queryParams, pathParams }) => {
-  let requestUrl = "";
+  const requestUrl = createRequestUrl(queryParams, pathParams);
 
-  if (pathParams) {
-    requestUrl = buildRequestWithPathParams(pathParams);
-  } else {
-    const url = buildRequestWithQueryParams(queryParams);
-    requestUrl = url.href;
-  }
+  const [{ isLoading, error, data }, setUrl] = useDataApi(requestUrl, []);
 
-  const { isLoading, error, data } = useQuery(requestUrl, () =>
-    fetch(requestUrl).then((res) => res.json())
-  );
+  useEffect(() => {
+    const requestUrl = createRequestUrl(queryParams, pathParams);
+    setUrl(requestUrl);
+  }, [pathParams, queryParams, setUrl]);
 
   if (isLoading) return <div className="loading">Loading...</div>;
 
   if (error)
     return <div className="error">An error has occurred. Please retry</div>;
 
-  return (
-    <div className="tweets">
-      {queryParams &&
-        data.statuses &&
-        data.statuses.map((status) => {
-          return (
-            <div key={status.id_str}>
-              <TweetEmbed id={status.id_str} />
-            </div>
-          );
-        })}
-      {pathParams &&
-        data &&
-        data.map((status) => {
-          return (
-            <div key={status.id_str}>
-              <TweetEmbed id={status.id_str} />
-            </div>
-          );
-        })}
-    </div>
-  );
+  if (data) {
+    return (
+      <div className="tweets">
+        {queryParams &&
+          data.statuses &&
+          data.statuses.map((status) => {
+            return (
+              <div key={status.id_str}>
+                <Tweet id={status.id_str} />
+              </div>
+            );
+          })}
+        {pathParams &&
+          data &&
+          data.map((status) => {
+            return (
+              <div key={status.id_str}>
+                <Tweet id={status.id_str} />
+              </div>
+            );
+          })}
+      </div>
+    );
+  }
+
+  return null;
 };
 
 export default Tweets;

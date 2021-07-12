@@ -10,14 +10,50 @@ services:
       - ./backend:/backend
     ports:
       - 8000:8000
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - redis
+
+  worker:
+    build: ./backend
+    command: celery worker --app=app.worker.celery --loglevel=info --logfile=logs/celery.log
+    volumes:
+      - ./backend:/backend
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - api
+      - redis
+
+  redis:
+    image: redis:6-alpine
+
+  dashboard:
+    build: ./backend
+    command: flower --app=app.worker.celery --port=5555 --broker=redis://redis:6379/0
+    ports:
+      - 5556:5555
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/0
+    depends_on:
+      - api
+      - redis
+      - worker
 
   frontend:
     build: ./frontend
     command: serve -s build -l 3000
     volumes:
       - ./frontend:/frontend
-      - frontend/build
+      - /frontend/build
+      - /frontend/node_modules
     ports:
       - 3000:3000
     depends_on:
       - api
+    tty: true
+    stdin_open: true

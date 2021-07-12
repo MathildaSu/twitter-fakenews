@@ -1,52 +1,62 @@
-.inputTypeContainer {
+.input-type-container {
   display: flex;
   align-items: center;
   margin-bottom: 1rem;
 }
 
-.queryContainer {
+.input-type-container input {
+  cursor: pointer;
+}
+
+.query-container {
   display: flex;
   flex-direction: column;
   margin-bottom: 1rem;
 }
 
-.queryInputContainer {
+.query-input-container {
   margin-bottom: 0.8rem;
   width: 100%;
   display: flex;
   align-items: center;
 }
 
-.queryInputContainer label {
+.query-input-container label {
   margin-right: 1rem;
 }
 
-.queryInput {
+.query-input {
   width: 100%;
 }
 
-.queryOptionsContainer {
+.query-options-container {
   display: flex;
   align-items: center;
-}
-
-.queryOptionsContainer {
   margin-right: 1rem;
 }
 
-.queryOptionsContainer :not(:last-child) {
+.query-options-container :not(:last-child) {
   margin-right: 0.5rem;
 }
 
-.langInput {
+.lang-input {
   width: 50px;
 }
 
-.limitInput {
+.limit-input {
   width: 50px;
 }
 
-.searchButton {
+.search-button {
   width: 80px;
   height: 30px;
+  background: #00acee;
+  border: 0;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  color: white;
+}
+
+.search-button:hover {
+  background: #0089be;
 }
